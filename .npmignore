@@ -1,0 +1,9 @@
+.eslintrc.yaml
+.mocharc.yaml
+tsconfig.json
+*.ts
+!*.d.ts
+filtermap-*.tgz
+
+tests.*
+bench.*

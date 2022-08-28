@@ -2,7 +2,8 @@
   "name": "filtermap",
   "version": "1.0.0-rc.0",
   "description": "Function to filter and map an array at the same time",
-  "main": "index.js",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "type": "module",
   "scripts": {
     "prebuild": "rm -rf build/",

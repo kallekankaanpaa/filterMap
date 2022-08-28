@@ -1,4 +1,8 @@
-export const filterMap = <E, O>(array: E[], filter: FilterFunction<E>, map: MapFunction<E, O>): O[] => {
+export const filterMap = <E, O>(
+  array: E[],
+  filter: (element: E, index: number, array: E[]) => boolean,
+  map: (element: E, index: number, array: E[]) => O
+): O[] => {
   const arrayLength = array.length;
   const result: O[] = new Array(arrayLength);
   let index = 0;
