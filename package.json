@@ -1,0 +1,30 @@
+{
+  "name": "filtermap",
+  "version": "1.0.0-rc.0",
+  "description": "Function to filter and map an array at the same time",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "prebuild": "rm -rf build/",
+    "build": "tsc",
+    "bench": "node --loader=ts-node/esm --no-warnings bench.ts",
+    "test": "mocha",
+    "lint": "eslint *.ts"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/benchmark": "^2.1.1",
+    "@types/chai": "^4.3.3",
+    "@types/mocha": "^9.1.1",
+    "@typescript-eslint/eslint-plugin": "^5.35.1",
+    "@typescript-eslint/parser": "^5.35.1",
+    "benchmark": "^2.1.4",
+    "chai": "^4.3.6",
+    "eslint": "^8.23.0",
+    "microtime": "^3.1.1",
+    "mocha": "^10.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.2"
+  }
+}
