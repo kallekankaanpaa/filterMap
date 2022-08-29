@@ -1,5 +1,6 @@
 import Benchmark from "benchmark";
-import { filterMap } from "./index.js";
+import filterMap from "./index.js";
+import { DEFAULT_THRESHOLD } from "./constants.js";
 
 const randomNumbers = (length: number): number[] => {
   const array = new Array(length);
@@ -9,6 +10,8 @@ const randomNumbers = (length: number): number[] => {
 const inputs = [
   { name: "Empty array", data: [] },
   { name: "Small array", data: randomNumbers(10) },
+  { name: "Smedium array under threshold", data: randomNumbers(DEFAULT_THRESHOLD - 1) },
+  { name: "Smedium array over threshold", data: randomNumbers(DEFAULT_THRESHOLD + 1) },
   { name: "Medium array", data: randomNumbers(1000) },
   { name: "Big array", data: randomNumbers(100000) },
   { name: "Huge array", data: randomNumbers(10000000) },
@@ -16,26 +19,28 @@ const inputs = [
   { name: "Nothing gets filtered", data: randomNumbers(10000).map((n) => Math.sqrt(n)) }
 ];
 
+const filter = (n: number) => n <= 5;
+const map = (n: number) => n ** 2;
 
 for (const { name, data } of inputs) {
   const suite = new Benchmark.Suite(name);
 
   suite.add("filterMap", function () {
-    filterMap(data, (n) => n <= 5, (n) => n ** 2);
+    filterMap(data, filter, map);
   }).add("reduce&push", function () {
-    data.reduce((result, n) => n <= 5 ? (result.push(n ** 2) && result) as number[] : result, [] as number[]);
+    data.reduce((result, n) => filter(n) ? (result.push(map(n)) && result) as number[] : result, [] as number[]);
   });
 
   // Disable the less performant benchmarks when array length increases
   if (data.length <= 10000) {
     suite.add("reduce&concat", function () {
-      data.reduce((result, n) => n <= 5 ? result.concat(n ** 2) : result, [] as number[]);
+      data.reduce((result, n) => filter(n) ? result.concat(map(n)) : result, [] as number[]);
     }).add("reduce&spread", function () {
-      data.reduce((result, n) => [...result, ...n <= 5 ? [n] : []], [] as number[]);
+      data.reduce((result, n) => [...result, ...filter(n) ? [map(n)] : []], [] as number[]);
     }).add("flatMap", function () {
-      data.flatMap((n) => n <= 5 ? [n ** 2] : []);
+      data.flatMap((n) => filter(n) ? [map(n)] : []);
     }).add("filter+map", function () {
-      data.filter((n) => n <= 5).map((n) => n ** 2);
+      data.filter(filter).map(map);
     });
   }
 

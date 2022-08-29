@@ -38,9 +38,8 @@ data.filterMap(({age}) => age >= 18, ({name}) => name); // ["John", "Jill"]
 
 ## Performance
 
-This implementation performs very well on large arrays. The edge cases where reduce based filtermapping is faster are:
-1. Empty or small (~10 elements) arrays
-2. Arrays where all (or most) elements will get filtered
+This implementation is performant on all array lengths, but the longer the input array is the more it beats reduce based implementations.
+The only edge case I've found are long arrays where most or all elements get filtered.
 
 ### Benchmarks
 The repository contains benchmarks which can be run with the `bench` script.
